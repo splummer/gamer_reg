@@ -1,0 +1,5 @@
+[run]
+include = gamer_registration_system/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin
