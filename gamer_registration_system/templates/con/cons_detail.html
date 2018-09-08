@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Convention List{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>{{ convention.convention_name }}</h1>
+      <ul>
+          {% for event in convention.event_set.all %}
+              <li>{{ event.title }}</li>
+          {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

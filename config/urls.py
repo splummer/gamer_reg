@@ -21,6 +21,7 @@ urlpatterns = [
     ),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    path("con/", include('gamer_registration_system.con.urls', namespace="con")),
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 )

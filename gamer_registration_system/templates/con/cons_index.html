@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Convention List{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      {% if latest_convention_list %}
+      <ul>
+          {% for convention in latest_convention_list %}
+              <li><a href="{% url 'con:con-detail' convention.convention_key %}">{{ convention.convention_name }}</a></li>
+          {% endfor %}
+      </ul>
+  {% else %}
+      <p>No Conventions are available.</p>
+  {% endif %}
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

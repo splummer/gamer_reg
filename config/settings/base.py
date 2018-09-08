@@ -71,6 +71,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'gamer_registration_system.users.apps.UsersAppConfig',
     # Your stuff: custom apps go here
+    'gamer_registration_system.con.apps.ConConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Convention List{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>{{ convention.convention_name }}</h1>
+      {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <form action="{% url 'con:signup' convention.convention_key %}" method="post">
+      {% csrf_token %}
+      {% for eventsched in convention.convention_schedule %}
+          <input type="radio" name="eventsignup" id="choice{{ forloop.counter }}" value="{{ eventsched.id }}" />
+          <label for="choice{{ forloop.counter }}">{{ eventsched.event.title }} at {{ eventsched.start_date }}</label><br />
+      {% endfor %}
+      <input type="submit" value="Signup" />
+    </form>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}
