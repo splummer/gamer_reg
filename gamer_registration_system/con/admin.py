@@ -13,6 +13,8 @@ class EventForm(forms.ModelForm):
 
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
+    list_display = ('title', 'convention', 'game_system', 'game_type')
+
 
 # Register your models here.
 admin.site.register(Convention)
