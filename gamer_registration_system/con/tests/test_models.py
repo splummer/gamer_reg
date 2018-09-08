@@ -1,9 +1,10 @@
+import pytest
 import datetime
 
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import *
+from gamer_registration_system.con.models import Convention, Event, EventSchedule
 
 # Create your tests here.
 class EventScheduleModelTests(TestCase):
