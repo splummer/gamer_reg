@@ -21,6 +21,8 @@ Moved to settings_.
 Basic Commands
 --------------
 
+docker-compose run --rm django python manage.py makemigrations
+
 Setting Up Your Users
 ^^^^^^^^^^^^^^^^^^^^^
 
