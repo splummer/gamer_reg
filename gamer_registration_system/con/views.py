@@ -74,7 +74,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        eventschedule_form = EventScheduleFormSet(queryset=EventSchedule.objects.none())
+        eventschedule_form = EventScheduleFormSet()
         return self.render_to_response(self.get_context_data(form=form,
                                                              eventschedule_form=eventschedule_form))
 
@@ -83,7 +83,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         Handles POST requests, instatiating form instance and its inline formsets
         with the passed POST variables and then checking them for validity.
         """
-        self.objet = None
+        self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         eventschedule_form = EventScheduleFormSet(self.request.POST)
