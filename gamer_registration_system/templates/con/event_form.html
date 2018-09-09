@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Submit Event for {{ event.convention.name }}{% endblock %}
+
+{% block content %}
+  <h1>Submit Event for {{ convention.name }}</h1>
+  <form class="form-horizontal" method="post" action="{% url 'con:submit-event' convention.key %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn">Submit</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

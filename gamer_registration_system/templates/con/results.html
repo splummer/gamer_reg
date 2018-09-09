@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ convention.convention_name }} Event List{% endblock %}
+{% block title %}{{ convention.name }} Event List{% endblock %}
 
 {% block content %}
 <div class="container">
 
   <div class="row">
     <div class="col-sm-12">
-      <h1>{{ convention.convention_name }}</h1>
+      <h1>{{ convention.name }}</h1>
       <ul>
           {% for schedevent in convention.convention_schedule %}
               <li>{{ schedevent.event.title }} -- {{ schedevent.num_of_players }} player{{ schedevent.num_of_players|pluralize }}</li>

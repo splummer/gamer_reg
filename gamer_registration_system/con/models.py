@@ -9,8 +9,8 @@ User = get_user_model()
 
 # Create your models here.
 class Convention(models.Model):
-    convention_name = models.CharField('Convention Name', max_length=100)
-    convention_key = models.CharField('Convention Key', max_length=10, unique=True, null=False)
+    name = models.CharField('Convention Name', max_length=100)
+    key = models.CharField('Convention Key', max_length=10, unique=True, null=False)
     start_date = models.DateTimeField('Convention start time')
     end_date = models.DateTimeField('Convention end time')
     venue = models.CharField('Venue Name', max_length=100)
@@ -22,13 +22,13 @@ class Convention(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        indexes = [models.Index(fields=['convention_name'])]
-        ordering = ['-convention_name']
+        indexes = [models.Index(fields=['name'])]
+        ordering = ['-name']
         verbose_name = 'convention'
         verbose_name_plural = 'conventions'
 
     def __str__(self):
-        return self.convention_name
+        return self.name
 
     def get_absolute_url(self):
         return reverse('con:con-detail', args=[str(self.id)])
@@ -65,7 +65,7 @@ class Event(models.Model):
         ('LARP', 'LARP'),
         ('Seminar', 'Seminar'),
     )
-    convention = models.ForeignKey(Convention, on_delete=models.CASCADE)
+    convention = models.ForeignKey(Convention, on_delete=models.CASCADE, related_name='events')
     title = models.CharField('Title', max_length=70)
     game_system = models.CharField('Game System', max_length=70)
     game_type = models.CharField(
@@ -82,10 +82,13 @@ class Event(models.Model):
 
 
     def __str__(self):
-        return "%s at %s" % (self.title, self.convention.convention_name)
+        return "%s at %s" % (self.title, self.convention.name)
+
+    def get_absolute_url(self):
+        return reverse('con:event-detail', args=[str(self.convention.key), str(self.id)])
 
 class EventSchedule(models.Model):
-    convention = models.ForeignKey(Convention, on_delete=models.CASCADE)
+    convention = models.ForeignKey(Convention, on_delete=models.CASCADE, related_name='scheduled_events')
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     start_date = models.DateTimeField('Start time')
     end_date = models.DateTimeField('End Time')
@@ -100,7 +103,7 @@ class EventSchedule(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s starting at %s at %s" % (self.event.title, self.start_date, self.convention.convention_name)
+        return "%s starting at %s at %s" % (self.event.title, self.start_date, self.convention.name)
 
     def starting_soon(self):
         return self.start_date <= timezone.now() + datetime.timedelta(hours=4)

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Event Details{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>{{ event.title }}</h1>
+      <p><em>{{ event.convention.name }}</em></p>
+      <p><strong>Game Type:</strong> {{ event.game_type }}<br />
+      <strong>Game System:</strong> {{ event.game_system }}<br />
+      <strong>Short Description:</strong> {{ event.short_description }}</p>
+      <p>{{ event.description }}<br />
+      created {{ event.created }}<br />
+      updated {{ event.updated }}<br /></p>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}
