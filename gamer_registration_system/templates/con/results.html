@@ -14,7 +14,7 @@
               <li>{{ schedevent.event.title }} -- {{ schedevent.num_of_players }} player{{ schedevent.num_of_players|pluralize }}</li>
           {% endfor %}
       </ul>
-      <a href="{% url 'con:signup' convention.convention_key %}">signup for more?</a>
+      <a href="{% url 'con:signup' convention.key %}">signup for more?</a>
     </div>
   </div>
 
