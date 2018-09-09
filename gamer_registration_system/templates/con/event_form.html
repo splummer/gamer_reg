@@ -8,6 +8,7 @@
   <form class="form-horizontal" method="post" action="{% url 'con:submit-event' convention.key %}">
     {% csrf_token %}
     {{ form|crispy }}
+    {{ eventschedule_form| crispy }}
     <div class="control-group">
       <div class="controls">
         <button type="submit" class="btn">Submit</button>

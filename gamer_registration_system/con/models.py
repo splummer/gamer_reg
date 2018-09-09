@@ -87,8 +87,10 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('con:event-detail', args=[str(self.convention.key), str(self.id)])
 
+    def event_schedule(self):
+        return self.eventschedule_set.select_related('eventschedule')
+
 class EventSchedule(models.Model):
-    convention = models.ForeignKey(Convention, on_delete=models.CASCADE, related_name='scheduled_events')
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     start_date = models.DateTimeField('Start time')
     end_date = models.DateTimeField('End Time')
@@ -99,11 +101,11 @@ class EventSchedule(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     players = models.ManyToManyField(User, related_name="event_schedule", blank=True)
-    gms = models.ManyToManyField(User, related_name="events_gming")
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    gms = models.ManyToManyField(User, related_name="events_gming", blank=True)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s starting at %s at %s" % (self.event.title, self.start_date, self.convention.name)
+        return "%s starting at %s at %s" % (self.event.title, self.start_date, self.event.convention.name)
 
     def starting_soon(self):
         return self.start_date <= timezone.now() + datetime.timedelta(hours=4)
