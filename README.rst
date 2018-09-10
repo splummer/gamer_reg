@@ -20,16 +20,16 @@ Moved to settings_.
 
 Basic Commands
 --------------
-
+::
     docker-compose -f local.yml up
 
-You can also set the environment variable COMPOSE_FILE pointing to local.yml like this:
+You can also set the environment variable COMPOSE_FILE pointing to local.yml like this::
     export COMPOSE_FILE=local.yml
 
     docker-compose run --rm django python manage.py makemigrations
 
 
-To run in a detached (background) mode, just:
+To run in a detached (background) mode, just::
     docker-compose up -d
 
 Setting Up Your Users
