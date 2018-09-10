@@ -21,7 +21,7 @@ class ConventionIndexView(ListView):
 class ConventionDetailView(DetailView):
     model = Convention
     slug_field = 'key'
-    template_name = 'con/conevents_detail.html'
+    template_name = 'con/cons_detail.html'
     """
     Maybe it is better to do this? except I cannot get it to work.
 

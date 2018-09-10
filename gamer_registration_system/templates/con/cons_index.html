@@ -11,7 +11,7 @@
       {% if latest_convention_list %}
       <ul>
           {% for convention in latest_convention_list %}
-              <li><a href="{% url 'con:con-detail' convention.key %}">{{ convention.name }}</a></li>
+              <li><a href="{% url 'con:convention-detail' convention.key %}">{{ convention.name }}</a></li>
           {% endfor %}
       </ul>
   {% else %}

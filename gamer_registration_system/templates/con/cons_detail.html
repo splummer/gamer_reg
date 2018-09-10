@@ -10,8 +10,8 @@
     <div class="col-sm-12">
       <h1>{{ convention.name }}</h1>
       <ul>
-          {% for event in convention.event_set.all %}
-              <li>{{ event.title }}</li>
+          {% for event in convention.schedule %}
+              <li>{{ event.event.title }} {{ event.start_date }}</li>
           {% endfor %}
       </ul>
     </div>

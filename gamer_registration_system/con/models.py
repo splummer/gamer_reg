@@ -31,10 +31,10 @@ class Convention(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('con:con-detail', args=[str(self.id)])
+        return reverse('con:convention-detail', args=[str(self.id)])
 
-    def convention_schedule(self):
-        return self.eventschedule_set.select_related('event')
+    def schedule(self):
+        return EventSchedule.objects.filter(event__convention=self)
 
 class Day(models.Model):
     convention = models.ForeignKey(Convention, on_delete=models.CASCADE)
@@ -65,7 +65,12 @@ class Event(models.Model):
         ('LARP', 'LARP'),
         ('Seminar', 'Seminar'),
     )
-    convention = models.ForeignKey(Convention, on_delete=models.CASCADE, related_name='events')
+    convention = models.ForeignKey(
+        Convention,
+        on_delete=models.CASCADE,
+        related_name='events',
+        related_query_name='event',
+    )
     title = models.CharField('Title', max_length=70)
     game_system = models.CharField('Game System', max_length=70)
     game_type = models.CharField(
@@ -88,10 +93,15 @@ class Event(models.Model):
         return reverse('con:event-detail', args=[str(self.convention.key), str(self.id)])
 
     def event_schedule(self):
-        return self.eventschedule_set.select_related('eventschedule')
+        return self.schedules.prefetch_related('schedules')
 
 class EventSchedule(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name='schedules',
+        related_query_name='schedule',
+    )
     start_date = models.DateTimeField('Start time')
     end_date = models.DateTimeField('End Time')
     min_players = models.IntegerField('Minimum Players')
