@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.db import models
 from django.forms import Textarea
 
-from .models import Convention, Day, Badge, Event, EventSchedule
+from .models import Convention, Day, Badge, Event, EventSchedule, TimeSlot
 
 class EventForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}))
@@ -22,3 +22,4 @@ admin.site.register(Day)
 admin.site.register(Badge)
 admin.site.register(Event, EventAdmin)
 admin.site.register(EventSchedule)
+admin.site.register(TimeSlot)

@@ -36,6 +36,18 @@ class Convention(models.Model):
     def schedule(self):
         return EventSchedule.objects.filter(event__convention=self)
 
+class TimeSlot(models.Model):
+    convention = models.ForeignKey(Convention, on_delete=models.CASCADE)
+    name = models.CharField('Name', max_length=20)
+    key = models.CharField('Short Name', max_length=4, unique=True, null=False)
+    start_date = models.DateTimeField('Start time')
+    end_date = models.DateTimeField('End Time')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
 class Day(models.Model):
     convention = models.ForeignKey(Convention, on_delete=models.CASCADE)
     day_name = models.CharField('Day Name', max_length=20)
@@ -102,20 +114,25 @@ class EventSchedule(models.Model):
         related_name='schedules',
         related_query_name='schedule',
     )
-    start_date = models.DateTimeField('Start time')
-    end_date = models.DateTimeField('End Time')
+    timeslot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, related_name='timeslots', blank=True, null=True)
+    start_date = models.DateTimeField('Start time', blank=True, null=True)
+    end_date = models.DateTimeField('End Time', blank=True, null=True)
     min_players = models.IntegerField('Minimum Players')
     max_players = models.IntegerField('Maximum Players')
-    room = models.CharField('Room', max_length=100, blank=True)
-    num_of_players = models.IntegerField('Current Number of Players', default=0, null=True, blank=True)
+    room = models.CharField('Room', max_length=100, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    players = models.ManyToManyField(User, related_name="event_schedule", blank=True)
-    gms = models.ManyToManyField(User, related_name="events_gming", blank=True)
+    players = models.ManyToManyField(User, related_name="players", blank=True)
+    gms = models.ManyToManyField(User, related_name="gms", blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s starting at %s at %s" % (self.event.title, self.start_date, self.event.convention.name)
+        if self.start_date:
+            return "%s starting at %s at %s" % (self.event.title, self.start_date, self.event.convention.name)
+        elif self.timeslot:
+            return "%s starting at %s at %s" % (self.event.title, self.timeslot.start_date, self.event.convention.name)
+        else:
+            return "%s starting at %s NO TIME SPECIFIED" % (self.event.title, self.event.convention.name)
 
     def starting_soon(self):
         return self.start_date <= timezone.now() + datetime.timedelta(hours=4)
@@ -123,3 +140,7 @@ class EventSchedule(models.Model):
     def recent_event(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.start_date <= now
+    """
+    TODO:
+    We should only save this model if at least one of timeslot or start/end date are specified.
+    """
